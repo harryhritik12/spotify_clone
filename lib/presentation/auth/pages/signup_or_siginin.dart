@@ -7,7 +7,7 @@ import 'package:spotify_clone/core/configs/assets/app_vector.dart';
 import 'package:spotify_clone/core/configs/theme/app_colors.dart';
 import 'package:spotify_clone/presentation/auth/pages/signin.dart';
 import 'package:spotify_clone/presentation/auth/pages/signup.dart';
-
+ 
 
 import '../../../common/widgets/appbar/app_bar.dart';
 

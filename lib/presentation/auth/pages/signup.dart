@@ -7,6 +7,7 @@ import 'package:spotify_clone/data/models/auth/create_user_req.dart';
 import 'package:spotify_clone/domain/usecases/auth/signup.dart';
 import 'package:spotify_clone/presentation/auth/pages/signin.dart';
 import 'package:spotify_clone/presentation/home/pages/home.dart';
+import 'package:spotify_clone/presentation/home/pages/home.dart';
 import 'package:spotify_clone/service_locator.dart';
 
 class SignupPage extends StatelessWidget {

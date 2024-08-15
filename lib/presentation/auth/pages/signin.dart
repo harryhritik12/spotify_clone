@@ -5,10 +5,10 @@ import 'package:spotify_clone/common/widgets/button/basic_app_button.dart';
 import 'package:spotify_clone/core/configs/assets/app_vectors.dart';
 import 'package:spotify_clone/data/models/auth/signin_user_req.dart';
 import 'package:spotify_clone/presentation/auth/pages/signup.dart';
+import 'package:spotify_clone/presentation/home/pages/home.dart';
 
 import '../../../domain/usecases/auth/sigin.dart';
 import '../../../service_locator.dart';
-import '../../home/pages/home.dart';
 
 class SigninPage extends StatelessWidget {
   SigninPage({super.key});
