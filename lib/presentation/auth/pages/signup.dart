@@ -7,15 +7,20 @@ import 'package:spotify_clone/data/models/auth/create_user_req.dart';
 import 'package:spotify_clone/domain/usecases/auth/signup.dart';
 import 'package:spotify_clone/presentation/auth/pages/signin.dart';
 import 'package:spotify_clone/presentation/home/pages/home.dart';
-import 'package:spotify_clone/presentation/home/pages/home.dart';
 import 'package:spotify_clone/service_locator.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   SignupPage({super.key});
 
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
   final TextEditingController _fullName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  bool _obscurePassword = true; // State variable to control password visibility
 
   @override
   Widget build(BuildContext context) {
@@ -29,47 +34,47 @@ class SignupPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-        vertical: 50,
-        horizontal: 30
-      ),
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _registerText(),
-            const SizedBox(height: 50,),
+            const SizedBox(height: 50),
             _fullNameField(context),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 20),
             _emailField(context),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 20),
             _passwordField(context),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 20),
             BasicAppButton(
               onPressed: () async {
                 var result = await sl<SignupUseCase>().call(
                   params: CreateUserReq(
                     fullName: _fullName.text.toString(),
                     email: _email.text.toString(),
-                    password: _password.text.toString()
-                  )
+                    password: _password.text.toString(),
+                  ),
                 );
                 result.fold(
-                  (l){
-                    var snackbar = SnackBar(content: Text(l),behavior: SnackBarBehavior.floating,);
+                  (l) {
+                    var snackbar = SnackBar(
+                      content: Text(l),
+                      behavior: SnackBarBehavior.floating,
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   },
-                  (r){
+                  (r) {
                     Navigator.pushAndRemoveUntil(
-                      context, 
-                      MaterialPageRoute(builder: (BuildContext context) => const HomePage()), 
-                      (route) => false
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const HomePage()),
+                      (route) => false,
                     );
-                  }
+                  },
                 );
               },
-              title: 'Create Account'
+              title: 'Create Account',
             )
-      
           ],
         ),
       ),
@@ -79,21 +84,16 @@ class SignupPage extends StatelessWidget {
   Widget _registerText() {
     return const Text(
       'Register',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 25
-      ),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
       textAlign: TextAlign.center,
     );
   }
-  
+
   Widget _fullNameField(BuildContext context) {
     return TextField(
       controller: _fullName,
-      decoration: const InputDecoration(
-        hintText: 'Full Name'
-      ).applyDefaults(
-        Theme.of(context).inputDecorationTheme
+      decoration: const InputDecoration(hintText: 'Full Name').applyDefaults(
+        Theme.of(context).inputDecorationTheme,
       ),
     );
   }
@@ -101,52 +101,59 @@ class SignupPage extends StatelessWidget {
   Widget _emailField(BuildContext context) {
     return TextField(
       controller: _email,
-      decoration: const InputDecoration(
-        hintText: 'Enter Email'
-      ).applyDefaults(
-        Theme.of(context).inputDecorationTheme
+      decoration: const InputDecoration(hintText: 'Enter Email').applyDefaults(
+        Theme.of(context).inputDecorationTheme,
       ),
     );
   }
 
-   Widget _passwordField(BuildContext context) {
-    return TextField(
-      controller: _password,
-      decoration: const InputDecoration(
-        hintText: 'Password'
-      ).applyDefaults(
-        Theme.of(context).inputDecorationTheme
-      ),
+  Widget _passwordField(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: _password,
+          obscureText: _obscurePassword, // Control password visibility
+          decoration: const InputDecoration(hintText: 'Password').applyDefaults(
+            Theme.of(context).inputDecorationTheme,
+          ),
+        ),
+        Row(
+          children: [
+            Checkbox(
+              value: !_obscurePassword,
+              onChanged: (bool? value) {
+                setState(() {
+                  _obscurePassword = !value!;
+                });
+              },
+            ),
+            const Text('Show Password'),
+          ],
+        ),
+      ],
     );
   }
 
   Widget _siginText(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 30
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
             'Do you have an account? ',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14
-            ),
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
           TextButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => SigninPage()
-                )
+                    builder: (BuildContext context) => SigninPage()),
               );
             },
-            child: const Text(
-              'Sign In'
-            )
+            child: const Text('Sign In'),
           )
         ],
       ),
